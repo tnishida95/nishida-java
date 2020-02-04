@@ -32,6 +32,7 @@ public class RestClientImpl implements RestClient {
 
 	@PostConstruct
 	private void init() throws Exception {
+
 		restTemplate = new RestTemplate(getClientHttpRequestFactory());
 	}
 

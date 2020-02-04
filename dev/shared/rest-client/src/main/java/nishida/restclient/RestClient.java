@@ -1,8 +1,5 @@
 package nishida.restclient;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public interface RestClient {
 
 	/**
