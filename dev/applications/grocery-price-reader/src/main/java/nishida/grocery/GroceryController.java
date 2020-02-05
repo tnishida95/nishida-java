@@ -31,9 +31,9 @@ public class GroceryController {
 	}
 
 	@GetMapping("/items")
-	public String items(@RequestParam(value="postalCode", defaultValue="92128") String postalCode,
-					   @RequestParam(value="store", defaultValue="ralphs") String store,
-					   Model model) {
+	public String items(@RequestParam(value="postalCode", defaultValue="92101") String postalCode,
+						@RequestParam(value="store", defaultValue="ralphs") String store,
+						Model model) {
 		String json = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + store);
 		FlippResponse flippResponse = gson.fromJson(json, FlippResponse.class);
 		model.addAttribute("items", flippResponse.getFlippItems());
