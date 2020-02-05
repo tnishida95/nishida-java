@@ -31,19 +31,14 @@ public class GroceryController {
 	}
 
 	@GetMapping("/items")
-	public String view(@RequestParam(value="postalCode", defaultValue="92128") String postalCode,
+	public String items(@RequestParam(value="postalCode", defaultValue="92128") String postalCode,
 					   @RequestParam(value="store", defaultValue="ralphs") String store,
 					   Model model) {
 		String json = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + store);
 		FlippResponse flippResponse = gson.fromJson(json, FlippResponse.class);
-		String toReturn = "";
-		for(FlippItem item : flippResponse.getFlippItems()) {
-			toReturn += "[" + item.getName() + " " + item.getCurrentPrice() + "], ";
-		}
 		model.addAttribute("items", flippResponse.getFlippItems());
+		model.addAttribute("postalCode", postalCode);
+		model.addAttribute("store", store);
 		return "items";
-		//return toReturn;
-
-		//return restClient.getResource("https://backflipp.wishabi.com/flipp/items/search?locale=en&postal_code=" + postalCode + "&q=ralphs");
 	}
 }

@@ -30,6 +30,13 @@ public class FlippItem {
 	@SerializedName("merchant_name")
 	private String merchantName;
 
+	@SerializedName("_L1")
+	private String categoryOne;
+
+	@SerializedName("_L2")
+	private String categoryTwo;
+
+
 	/* example json:
 		"flyer_item_id": 471229943,
 		"flyer_id": 3265016,
