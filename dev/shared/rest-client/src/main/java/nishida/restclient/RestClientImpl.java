@@ -54,9 +54,8 @@ public class RestClientImpl implements RestClient {
 		}
 	}
 
-	public String getResource(String url) {
-		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-		return response.getBody();
+	public ResponseEntity<String> getResource(String url) {
+		return restTemplate.getForEntity(url, String.class);
 	}
 
 }

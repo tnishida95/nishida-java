@@ -22,6 +22,7 @@
         <input type="text" id="postalInput" placeholder="Enter ZIP code..." required>
         <input type="submit" value="Go!">
     </form>
+    <p th:text="${message}"></p>
     <hr>
 
     <h6>Tyler Nishida | https://github.com/tnishida95 | Data Provided by Flipp</h6>
@@ -32,6 +33,7 @@
         let store = document.getElementById("storeInput").value;
         let postal = document.getElementById("postalInput").value;
         console.log(`Got values ${store} and ${postal}.`);
+        // TODO: this template string may be simplified after we have a set domain
         window.location.assign(`${window.location.protocol}//${window.location.host}/items?postalCode=${postal}&store=${store}`);
         return false;
     }
