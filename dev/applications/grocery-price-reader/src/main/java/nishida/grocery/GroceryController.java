@@ -32,23 +32,12 @@ public class GroceryController {
 
 	@GetMapping("/items")
 	public String items(@RequestParam(value="postalCode", defaultValue="92101") String postalCode,
-						@RequestParam(value="store", defaultValue="ralphs") String store,
+						@RequestParam(value="store", defaultValue="all") String store,
 						Model model) {
 		if(store.equals("all")) {
-			String ralphsJson = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + "ralphs");
-			FlippResponse ralphsResponse = gson.fromJson(ralphsJson, FlippResponse.class);
-			String vonsJson = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + "vons");
-			FlippResponse vonsResponse = gson.fromJson(vonsJson, FlippResponse.class);
-			String sproutsJson = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + "sprouts");
-			FlippResponse sproutsResponse = gson.fromJson(sproutsJson, FlippResponse.class);
-
-			for(FlippItem f : vonsResponse.getFlippItems()) {
-				ralphsResponse.getFlippItems().add(f);
-			}
-			for(FlippItem f : sproutsResponse.getFlippItems()) {
-				ralphsResponse.getFlippItems().add(f);
-			}
-			model.addAttribute("items", ralphsResponse.getFlippItems());
+			String json = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=ralphs&q=sprouts&q=vons");
+			FlippResponse flippResponse = gson.fromJson(json, FlippResponse.class);
+			model.addAttribute("items", flippResponse.getFlippItems());
 		}
 		else {
 			String json = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + store);
@@ -56,7 +45,7 @@ public class GroceryController {
 			model.addAttribute("items", flippResponse.getFlippItems());
 		}
 		model.addAttribute("postalCode", postalCode);
-		model.addAttribute("store", store);
+		model.addAttribute("store", store.toUpperCase());
 		return "items";
 	}
 }

@@ -1,10 +1,42 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Grocery Price Reader: Welcome</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Bootstrap Table Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+
 </head>
-<body>
-<p th:text="'Hello, ' + ${name} + '!'" />
+
+<div class="container" style="text-align: center;">
+    <h1>Welcome!</h1>
+    <hr>
+    <h2>Enter info below to get started:</h2>
+
+    <form onsubmit="return navigateToItems();">
+        <input type="text" id="storeInput" placeholder="Enter Store..." required>
+        <input type="text" id="postalInput" placeholder="Enter ZIP code..." required>
+        <input type="submit" value="Go!">
+    </form>
+    <hr>
+
+    <h6>Tyler Nishida | https://github.com/tnishida95 | Data Provided by Flipp</h6>
+</div>
+
+<script>
+    function navigateToItems() {
+        let store = document.getElementById("storeInput").value;
+        let postal = document.getElementById("postalInput").value;
+        console.log(`Got values ${store} and ${postal}.`);
+        window.location.assign(`${window.location.protocol}//${window.location.host}/items?postalCode=${postal}&store=${store}`);
+        return false;
+    }
+</script>
+
 </body>
+
 </html>

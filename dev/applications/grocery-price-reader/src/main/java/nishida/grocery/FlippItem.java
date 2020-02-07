@@ -15,6 +15,9 @@ public class FlippItem {
 
 	private String name;
 
+	@SerializedName("clipping_image_url")
+	private String imageUrl;
+
 	@SerializedName("current_price")
 	private String currentPrice;
 
