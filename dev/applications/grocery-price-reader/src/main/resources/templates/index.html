@@ -20,7 +20,7 @@
     <form onsubmit="return navigateToItems();">
         <input type="text" id="storeInput" placeholder="Enter Store..." required>
         <input type="text" id="postalInput" placeholder="Enter ZIP code..." required>
-        <input type="submit" value="Go!">
+        <input type="submit" class="btn btn-outline-secondary" value="Go!">
     </form>
     <p th:text="${message}"></p>
     <hr>
@@ -34,7 +34,8 @@
         let postal = document.getElementById("postalInput").value;
         console.log(`Got values ${store} and ${postal}.`);
         // TODO: this template string may be simplified after we have a set domain
-        window.location.assign(`${window.location.protocol}//${window.location.host}/items?postalCode=${postal}&store=${store}`);
+        //window.location.assign(`${window.location.protocol}//${window.location.host}/items?postalCode=${postal}&store=${store}`);
+        window.location.assign(`/items?postalCode=${postal}&store=${store}`);
         return false;
     }
 </script>

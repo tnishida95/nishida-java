@@ -33,21 +33,33 @@ public class GroceryController {
 	public String items(@RequestParam(value="postalCode", defaultValue="92101") String postalCode,
 						@RequestParam(value="store", defaultValue="all") String store,
 						Model model) {
-		ResponseEntity<String> res;
 		try {
-			if(store.equals("all")) {
-				res = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=ralphs&q=sprouts&q=vons");
+			if(store.toLowerCase().equals("all")) {
+				// TODO: there is a better way to do this
+				String ralphsJson = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + "ralphs").getBody();
+				FlippResponse ralphsResponse = gson.fromJson(ralphsJson, FlippResponse.class);
+				String vonsJson = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + "vons").getBody();
+				FlippResponse vonsResponse = gson.fromJson(vonsJson, FlippResponse.class);
+				String sproutsJson = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + "sprouts").getBody();
+				FlippResponse sproutsResponse = gson.fromJson(sproutsJson, FlippResponse.class);
+				for(FlippItem f : vonsResponse.getFlippItems()) {
+					ralphsResponse.getFlippItems().add(f);
+				}
+				for(FlippItem f : sproutsResponse.getFlippItems()) {
+					ralphsResponse.getFlippItems().add(f);
+				}
+				model.addAttribute("items", ralphsResponse.getFlippItems());
 			}
 			else {
-				res = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + store);
+				String json = restClient.getResource(FLIPP_ENDPOINT + "?locale=en&postal_code=" + postalCode + "&q=" + store).getBody();
+				FlippResponse flippResponse = gson.fromJson(json, FlippResponse.class);
+				model.addAttribute("items", flippResponse.getFlippItems());
 			}
 		}
 		catch(RestClientException e) {
 			model.addAttribute("message", "Got bad response from server.  Check store/ZIP code combination.");
 			return "index";
 		}
-		FlippResponse flippResponse = gson.fromJson(res.getBody(), FlippResponse.class);
-		model.addAttribute("items", flippResponse.getFlippItems());
 		model.addAttribute("postalCode", postalCode);
 		model.addAttribute("store", store.toUpperCase());
 		return "items";
