@@ -34,7 +34,7 @@
         <tbody id="groceryRows">
             <tr th:each="item : ${items}">
                 <td><img th:src="${item.imageUrl}" alt="image" style="max-height: 90px; max-width: 90px;"><img></td>
-                <td th:text="${item.name}"></td>
+                <td id="itemName" th:text="${item.name}"></td>
                 <td><span th:text="${item.prePriceText}"></span> <span th:text="${item.currentPrice}"></span> <span th:text="${item.postPriceText}"></span></td>
                 <td th:text="${item.merchantName}"></td>
                 <td th:text="${item.categoryOne}"></td>
@@ -52,11 +52,9 @@
         for(let i = 0; i < rows.length; i++) {
             rows[i].style.display = "none";
             let cells = rows[i].getElementsByTagName("td");
-            for(let j = 0; j < cells.length; j++) {
-                console.log(`${cells[j].innerText} == ${input}`);
-                if(cells[j].innerText && cells[j].innerText.toUpperCase().includes(input)) {
-                    rows[i].style.display = "";
-                }
+            console.log(`${cells[1].innerText} == ${input}`);
+            if(cells[1].innerText && cells[1].innerText.toUpperCase().includes(input)) {
+                rows[i].style.display = "";
             }
         }
     }

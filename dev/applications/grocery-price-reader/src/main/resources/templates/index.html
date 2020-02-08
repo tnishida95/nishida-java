@@ -22,6 +22,7 @@
         <input type="text" id="postalInput" placeholder="Enter ZIP code..." required>
         <input type="submit" class="btn btn-outline-secondary" value="Go!">
     </form>
+    <p>"all" can be used in Store field to search for Ralphs, Sprouts, and Vons.</p>
     <p th:text="${message}"></p>
     <hr>
 
@@ -33,8 +34,6 @@
         let store = document.getElementById("storeInput").value;
         let postal = document.getElementById("postalInput").value;
         console.log(`Got values ${store} and ${postal}.`);
-        // TODO: this template string may be simplified after we have a set domain
-        //window.location.assign(`${window.location.protocol}//${window.location.host}/items?postalCode=${postal}&store=${store}`);
         window.location.assign(`/items?postalCode=${postal}&store=${store}`);
         return false;
     }
