@@ -1,6 +1,7 @@
 package nishida.grocery;
 
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import nishida.restclient.RestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 
+@Slf4j
 @Controller
 public class GroceryController {
 
@@ -25,6 +27,7 @@ public class GroceryController {
 
 	@GetMapping("/")
 	public String index(@RequestParam(value="name", defaultValue="World") String name, Model model) {
+		log.info("Received GET for [/]");
 		model.addAttribute("name", name);
 		return "index";
 	}
@@ -33,6 +36,7 @@ public class GroceryController {
 	public String items(@RequestParam(value="postalCode", defaultValue="92101") String postalCode,
 						@RequestParam(value="store", defaultValue="all") String store,
 						Model model) {
+		log.info("Received GET for [/items] with postalCode=[{}] and store=[{}]", postalCode, store);
 		try {
 			if(store.toLowerCase().equals("all")) {
 				// TODO: there is a better way to do this
@@ -57,6 +61,7 @@ public class GroceryController {
 			}
 		}
 		catch(RestClientException e) {
+			log.debug("Error retrieving JSON from Flipp endpoint", e);
 			model.addAttribute("message", "Got bad response from server.  Check store/ZIP code combination.");
 			return "index";
 		}
